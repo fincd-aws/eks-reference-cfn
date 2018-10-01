@@ -1,0 +1,24 @@
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters: 
+      TemplateURL: String
+      TimeoutInMinutes: Integer
+  
+  EKSClusterStack
+
+  NodeInstanceProfileStack
+
+  NodeSecurityGroupStack
+
+  NodeASGStack
+
+
+
+
+
+
+
+
+  
