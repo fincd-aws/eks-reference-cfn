@@ -19,13 +19,11 @@ Metadata:
           - ServiceRole
           - ClusterVersion
           - ClusterName
-          - ControlPlaneSecurityGroups
           - ClusterSubnets
       - 
         Label:
           default: "Worker Node Security Group Nested Stack"
         Parameters:
-          - ControlPlaneSecurityGroup
           - Vpc
           - ClusterName
       - 
@@ -41,7 +39,6 @@ Metadata:
           - ClusterName
           - BootstrapArguments
           - NodeGroupName
-          - ClusterControlPlaneSecurityGroup
           - VpcId
           - ASGSubnets
           - ExistingNodeSecurityGroup
@@ -98,18 +95,12 @@ Parameters:
     Type: String
     Description: 'Cluster Name'
   
-  ControlPlaneSecurityGroups:
-    Type: List<AWS::EC2::SecurityGroup::Id>
-    Description: 'Security Group Id for Control Plane'
 
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: 'Cluster Subnets'
 
 #Worker Node Security Group Nested Stack Parameters
-  ControlPlaneSecurityGroup:
-    Description: 'EKS Control Plane Security Group Id'
-    Type: AWS::EC2::SecurityGroup::Id
 
   Vpc:
     Description: 'Vpc Id'
@@ -219,10 +210,6 @@ Parameters:
     Description: Unique identifier for the Node Group.
     Type: String
 
-  ClusterControlPlaneSecurityGroup:
-    Description: The security group of the cluster control plane.
-    Type: AWS::EC2::SecurityGroup::Id
-
   VpcId:
     Description: The VPC of the worker instances
     Type: AWS::EC2::VPC::Id
@@ -266,8 +253,8 @@ Resources:
           #Output from EKSClusterStack
           ClusterName: !Ref ClusterName
           #Output from VPCStack
-          ControlPlaneSecurityGroups: !GetAtt VPCStack.SecurityGroups
-          ClusterSubnets: !GetAtt VPCStack.SubnetIds
+          ControlPlaneSecurityGroups: !GetAtt VPCStack.Outputs.SecurityGroups
+          ClusterSubnets: !GetAtt VPCStack.Outputs.SubnetIds
       TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/ekscluster.yaml
       TimeoutInMinutes: 30
 
@@ -284,11 +271,11 @@ Resources:
     Properties:
       Parameters:
         #Output from VPCStack
-        ControlPlaneSecurityGroup:  !GetAtt VPCStack.SecurityGroups
+        ControlPlaneSecurityGroup:  !GetAtt VPCStack.Outputs.SecurityGroups
         #Output from VPCStack
-        Vpc: !GetAtt VPCStack.VpcId
+        Vpc: !GetAtt VPCStack.Outputs.VpcId
         #Output from EKSClusterStack
-        ClusterName: !GetAtt EKSClusterStack.ClusterName
+        ClusterName: !GetAtt EKSClusterStack.Outputs.ClusterName
       TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/workernodesecuritygroup.yaml
       TimeoutInMinutes: 30
 
@@ -305,17 +292,17 @@ Resources:
         NodeVolumeSize: !Ref NodeVolumeSize
         BootstrapArguments: !Ref BootstrapArguments
         #Output from EKSClusterStack
-        ClusterName: !GetAtt EKSClusterStack.ClusterName
+        ClusterName: !GetAtt EKSClusterStack.Outputs.ClusterName
         NodeGroupName: !Ref NodeGroupName
         #Output from VPCStack
-        ClusterControlPlaneSecurityGroup: !GetAtt VPCStack.SecurityGroups
+        ClusterControlPlaneSecurityGroup: !GetAtt VPCStack.Outputs.SecurityGroups
         #Output from VPCStack
-        VpcId: !GetAtt VPCStack.VpcId
-        ASGSubnets: !GetAtt VPCStack.SubnetIds
+        VpcId: !GetAtt VPCStack.Outputs.VpcId
+        ASGSubnets: !GetAtt VPCStack.Outputs.SubnetIds
         #Output from NodeSecurityGroupStack
-        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.NodeSecurityGroup
+        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
         #Output from NodeInstanceProfileStack
-        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.NodeInstanceProfile
+        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
       TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/nodegroup.yaml
       TimeoutInMinutes: 30
 
