@@ -33,10 +33,7 @@ Metadata:
           - ClusterName
           - BootstrapArguments
           - NodeGroupName
-          - VpcId
-          - ASGSubnets
-          - ExistingNodeSecurityGroup
-          - ExistingNodeInstanceProfile
+
 
 Parameters:
 #VPC Nested Stack Parameters
@@ -192,22 +189,6 @@ Parameters:
 
   NodeGroupName:
     Description: Unique identifier for the Node Group.
-    Type: String
-
-  VpcId:
-    Description: The VPC of the worker instances
-    Type: AWS::EC2::VPC::Id
-
-  Subnets:
-    Description: The subnets where workers can be created.
-    Type: List<AWS::EC2::Subnet::Id>
-
-  ExistingNodeSecurityGroup:
-    Description: Existing worker Node Security Group 
-    Type: AWS::EC2::SecurityGroup::Id
-  
-  ExistingNodeInstanceProfile:
-    Description: Existing worker Node Instance Profile
     Type: String
 
 
