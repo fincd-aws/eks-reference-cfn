@@ -124,6 +124,12 @@ Parameters:
     Type: String
 
 
+Conditions: 
+  CreateNewSecurityGroup: !Equals [ !Ref ExistingNodeSecurityGroup, '' ]
+
+  CreateNewInstanceProfile: !Equals [ !Ref ExistingNodeInstanceProfile, '' ]
+
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
