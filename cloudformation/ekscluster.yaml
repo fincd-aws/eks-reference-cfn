@@ -15,7 +15,7 @@ Parameters:
     Type: List<AWS::EC2::SecurityGroup::Id>
     Description: 'Security Group Id for Control Plane'
 
-  Subnets:
+  ClusterSubnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: 'Cluster Subnets'
 
@@ -26,6 +26,11 @@ Resources:
       Name: !Ref ClusterName
       ResourcesVpcConfig:
         SecurityGroupIds: !Ref ControlPlaneSecurityGroups
-        SubnetIds: !Ref Subnets
+        SubnetIds: !Ref ClusterSubnets
       RoleArn: !Ref ServiceRole
       Version: !Ref ClusterVersion
+
+Outputs:
+  ClusterName:
+    Description: Name of the EKS Cluster
+    Value: !Ref EKSCluster       

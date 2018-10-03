@@ -43,3 +43,6 @@ Outputs:
   NodeInstanceRole:
     Description: The node instance role
     Value: !GetAtt NodeInstanceRole.Arn
+  NodeInstanceProfile:
+    Description: The node instance profile
+    Value: !GetAtt NodeInstanceProfile.Arn  

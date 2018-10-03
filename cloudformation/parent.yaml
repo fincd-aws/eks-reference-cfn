@@ -1,19 +1,322 @@
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - 
+        Label:
+          default: "VPC Nested Stack"
+        Parameters:
+          - VpcBlock
+          - Subnet01Block
+          - Subnet02Block
+          - Subnet03Block
+          - Subnet04Block
+          - Subnet05Block
+          - Subnet06Block
+      - 
+        Label:
+          default: "EKS Cluster Nested Stack"
+        Parameters:
+          - ServiceRole
+          - ClusterVersion
+          - ClusterName
+          - ControlPlaneSecurityGroups
+          - ClusterSubnets
+      - 
+        Label:
+          default: "Worker Node Security Group Nested Stack"
+        Parameters:
+          - ControlPlaneSecurityGroup
+          - Vpc
+          - ClusterName
+      - 
+        Label:
+          default: "Worker Node ASG Nested Stack"
+        Parameters:
+          - KeyName
+          - NodeImageId
+          - NodeInstanceType
+          - NodeAutoScalingGroupMinSize
+          - NodeAutoScalingGroupMaxSize
+          - NodeVolumeSize
+          - ClusterName
+          - BootstrapArguments
+          - NodeGroupName
+          - ClusterControlPlaneSecurityGroup
+          - VpcId
+          - ASGSubnets
+          - ExistingNodeSecurityGroup
+          - ExistingNodeInstanceProfile
+
+Parameters:
+#VPC Nested Stack Parameters
+  VpcBlock:
+    Type: String
+    Default: 192.168.0.0/16
+    Description: The CIDR range for the VPC. This should be a valid private (RFC 1918) CIDR range.
+
+  Subnet01Block:
+    Type: String
+    Default: 192.168.32.0/19
+    Description: CidrBlock for subnet 01 within the VPC (private)
+
+  Subnet02Block:
+    Type: String
+    Default: 192.168.64.0/19
+    Description: CidrBlock for subnet 02 within the VPC (private)
+
+  Subnet03Block:
+    Type: String
+    Default: 192.168.96.0/19
+    Description: CidrBlock for subnet 03 within the VPC (private)
+  
+  Subnet04Block:
+    Type: String
+    Default: 192.168.128.0/19
+    Description: CidrBlock for subnet 04 within the VPC (public)
+
+  Subnet05Block:
+    Type: String
+    Default: 192.168.160.0/19
+    Description: CidrBlock for subnet 05 within the VPC (public)
+
+  Subnet06Block:
+    Type: String
+    Default: 192.168.192.0/19
+    Description: CidrBlock for subnet 06 within the VPC (public)
+
+#EKS Cluster Nested Stack Parameters
+  ServiceRole:
+    Type: String
+    Description: 'Service Role Arn'
+
+  ClusterVersion:
+    Type: String
+    Description: 'Cluster Version'
+
+  ClusterName:
+    Type: String
+    Description: 'Cluster Name'
+  
+  ControlPlaneSecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: 'Security Group Id for Control Plane'
+
+  Subnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: 'Cluster Subnets'
+
+#Worker Node Security Group Nested Stack Parameters
+  ControlPlaneSecurityGroup:
+    Description: 'EKS Control Plane Security Group Id'
+    Type: AWS::EC2::SecurityGroup::Id
+
+  Vpc:
+    Description: 'Vpc Id'
+    Type: AWS::EC2::VPC::Id
+
+  ClusterName:
+    Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
+    Type: String
+
+# Worker Node AutoScaling Group Nested Stack Parameters
+  KeyName:
+    Description: The EC2 Key Pair to allow SSH access to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+
+  NodeImageId:
+    Type: AWS::EC2::Image::Id
+    Description: AMI id for the node instances.
+
+  NodeInstanceType:
+    Description: EC2 instance type for the node instances
+    Type: String
+    Default: t2.medium
+    AllowedValues:
+    - c5d.xlarge
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+
+  NodeAutoScalingGroupMinSize:
+    Type: Number
+    Description: Minimum size of Node Group ASG.
+    Default: 1
+
+  NodeAutoScalingGroupMaxSize:
+    Type: Number
+    Description: Maximum size of Node Group ASG.
+    Default: 3
+
+  NodeVolumeSize:
+    Type: Number
+    Description: Node volume size
+    Default: 20
+
+  ClusterName:
+    Description: The cluster name provided when the cluster was created. If it is incorrect, nodes will not be able to join the cluster.
+    Type: String
+
+  BootstrapArguments:
+    Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
+    Default: ""
+    Type: String
+
+  NodeGroupName:
+    Description: Unique identifier for the Node Group.
+    Type: String
+
+  ClusterControlPlaneSecurityGroup:
+    Description: The security group of the cluster control plane.
+    Type: AWS::EC2::SecurityGroup::Id
+
+  VpcId:
+    Description: The VPC of the worker instances
+    Type: AWS::EC2::VPC::Id
+
+  Subnets:
+    Description: The subnets where workers can be created.
+    Type: List<AWS::EC2::Subnet::Id>
+
+  ExistingNodeSecurityGroup:
+    Description: Existing worker Node Security Group 
+    Type: AWS::EC2::SecurityGroup::Id
+  
+  ExistingNodeInstanceProfile:
+    Description: Existing worker Node Instance Profile
+    Type: String
+
+
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       Parameters: 
-      TemplateURL: String
-      TimeoutInMinutes: Integer
+          VpcBlock: !Ref VpcBlock
+          Subnet01Block: !Ref Subnet01Block
+          Subnet02Block: !Ref Subnet02Block
+          Subnet03Block: !Ref Subnet03Block
+          Subnet04Block: !Ref Subnet04Block
+          Subnet05Block: !Ref Subnet05Block
+          Subnet06Block: !Ref Subnet06Block
+      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/vpc.yaml
+      TimeoutInMinutes: 30
   
-  EKSClusterStack
+  #EKS Cluster takes approximately 20 Minutes
+  EKSClusterStack:
+    DependsOn: VPCStack
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters: 
+          ServiceRole: !Ref ServiceRole
+          ClusterVersion: !Ref ClusterVersion
+          #Output from EKSClusterStack
+          ClusterName: !GetAtt EKSClusterStack.ClusterName
+          #Output from VPCStack
+          ControlPlaneSecurityGroups: !GetAtt VPCStack.SecurityGroups
+          ClusterSubnets: !GetAtt VPCStack.SubnetIds
+      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/ekscluster.yaml
+      TimeoutInMinutes: 30
 
-  NodeInstanceProfileStack
+  NodeInstanceProfileStack:
+    DependsOn: EKSClusterStack
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/workernodeinstanceprofile.yaml
+      TimeoutInMinutes: 30
 
-  NodeSecurityGroupStack
+  NodeSecurityGroupStack:
+    DependsOn: NodeInstanceProfileStack
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        #Output from VPCStack
+        ControlPlaneSecurityGroup:  !GetAtt VPCStack.SecurityGroups
+        #Output from VPCStack
+        Vpc: !GetAtt VPCStack.VpcId
+        #Output from EKSClusterStack
+        ClusterName: !GetAtt EKSClusterStack.ClusterName
+      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/workernodesecuritygroup.yaml
+      TimeoutInMinutes: 30
 
-  NodeASGStack
-
+  NodeASGStack:
+    DependsOn: NodeSecurityGroupStack
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters: 
+        KeyName: !Ref KeyName
+        NodeImageId: !Ref NodeImageId
+        NodeInstanceType: !Ref NodeInstanceType
+        NodeAutoScalingGroupMinSize: !Ref NodeAutoScalingGroupMinSize
+        NodeAutoScalingGroupMaxSize: !Ref NodeAutoScalingGroupMaxSize
+        NodeVolumeSize: !Ref NodeVolumeSize
+        BootstrapArguments: !Ref BootstrapArguments
+        #Output from EKSClusterStack
+        ClusterName: !GetAtt EKSClusterStack.ClusterName
+        NodeGroupName: !Ref NodeGroupName
+        #Output from VPCStack
+        ClusterControlPlaneSecurityGroup: !GetAtt VPCStack.SecurityGroups
+        #Output from VPCStack
+        VpcId: !GetAtt VPCStack.VpcId
+        ASGSubnets: !GetAtt VPCStack.SubnetIds
+        #Output from NodeSecurityGroupStack
+        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.NodeSecurityGroup
+        #Output from NodeInstanceProfileStack
+        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.NodeInstanceProfile
+      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/nodegroup.yaml
+      TimeoutInMinutes: 30
 
 
 

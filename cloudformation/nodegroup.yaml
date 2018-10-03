@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Amazon EKS - Node Group - Released 2018-08-30'
+Description: 'Amazon EKS Reference Nested Stack Architecture October 2018'
 
 Parameters:
 
@@ -111,7 +111,7 @@ Parameters:
     Description: The VPC of the worker instances
     Type: AWS::EC2::VPC::Id
 
-  Subnets:
+  ASGSubnets:
     Description: The subnets where workers can be created.
     Type: List<AWS::EC2::Subnet::Id>
 
@@ -122,11 +122,6 @@ Parameters:
   ExistingNodeInstanceProfile:
     Description: (optional) Existing worker Node Instance Profile
     Type: String
-
-Conditions: 
-  CreateNewSecurityGroup: !Equals [ !Ref ExistingNodeSecurityGroup, '' ]
-
-  CreateNewInstanceProfile: !Equals [ !Ref ExistingNodeInstanceProfile, '' ]
 
 
 Metadata:
@@ -155,7 +150,7 @@ Metadata:
           default: "Worker Network Configuration"
         Parameters:
           - VpcId
-          - Subnets
+          - ASGSubnets
 
 Resources:
 
@@ -277,7 +272,7 @@ Resources:
       MinSize: !Ref NodeAutoScalingGroupMinSize
       MaxSize: !Ref NodeAutoScalingGroupMaxSize
       VPCZoneIdentifier:
-        !Ref Subnets
+        !Ref ASGSubnets
       Tags:
       - Key: Name
         Value: !Sub "${ClusterName}-${NodeGroupName}-Node"
