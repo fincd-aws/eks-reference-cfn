@@ -22,12 +22,6 @@ Metadata:
           - ClusterSubnets
       - 
         Label:
-          default: "Worker Node Security Group Nested Stack"
-        Parameters:
-          - Vpc
-          - ClusterName
-      - 
-        Label:
           default: "Worker Node ASG Nested Stack"
         Parameters:
           - KeyName
@@ -99,16 +93,6 @@ Parameters:
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: 'Cluster Subnets'
-
-#Worker Node Security Group Nested Stack Parameters
-
-  Vpc:
-    Description: 'Vpc Id'
-    Type: AWS::EC2::VPC::Id
-
-  ClusterName:
-    Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
-    Type: String
 
 # Worker Node AutoScaling Group Nested Stack Parameters
   KeyName:
