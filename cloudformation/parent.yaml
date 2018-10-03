@@ -80,7 +80,7 @@ Parameters:
   ClusterVersion:
     Type: String
     Description: 'Cluster Version'
-    Default: 1.10
+    Default: '1.10'
 
   ClusterName:
     Type: String
@@ -186,7 +186,6 @@ Parameters:
   NodeGroupName:
     Description: Unique identifier for the Node Group.
     Type: String
-
 
 Resources:
   VPCStack:
