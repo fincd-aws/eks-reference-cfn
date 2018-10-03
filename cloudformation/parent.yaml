@@ -85,11 +85,7 @@ Parameters:
   ClusterName:
     Type: String
     Description: 'Cluster Name'
-  
-
-  Subnets:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: 'Cluster Subnets'
+ 
 
 # Worker Node AutoScaling Group Nested Stack Parameters
   KeyName:
