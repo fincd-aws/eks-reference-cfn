@@ -263,7 +263,7 @@ Resources:
           ServiceRole: !Ref ServiceRole
           ClusterVersion: !Ref ClusterVersion
           #Output from EKSClusterStack
-          ClusterName: !GetAtt EKSClusterStack.ClusterName
+          ClusterName: !Ref ClusterName
           #Output from VPCStack
           ControlPlaneSecurityGroups: !GetAtt VPCStack.SecurityGroups
           ClusterSubnets: !GetAtt VPCStack.SubnetIds
