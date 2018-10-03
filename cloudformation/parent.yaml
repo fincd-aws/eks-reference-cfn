@@ -92,6 +92,7 @@ Parameters:
   ClusterVersion:
     Type: String
     Description: 'Cluster Version'
+    Default: 1.10
 
   ClusterName:
     Type: String
