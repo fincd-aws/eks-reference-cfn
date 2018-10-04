@@ -12,6 +12,9 @@ S3 Bucket for Storage of Nested Stacks
 5. nodegroup.yaml
 
 - create a new CloudFormation Stack using parent.yaml
-  set parameters as desired
+- you *must* create the parent stack using the IAM Credentials you want to access the APIServer Endpoint with!
+- set parameters as desired
+
+$ aws cloudformation create-stack --stack-name ExampleEKS --parameters file://./parentparameters.json --template-body file://./parent.yaml
 
 - At the end of this process you will have a running EKS Cluster and you can apply the configmap to authorize the Worker Node IAM Role
