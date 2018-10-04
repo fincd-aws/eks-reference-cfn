@@ -3,6 +3,11 @@ Metadata:
     ParameterGroups:
       - 
         Label:
+          default: "S3 Bucket for Nested Stack Templates"
+        Parameters:
+          - S3BucketName
+      - 
+        Label:
           default: "VPC Nested Stack"
         Parameters:
           - VpcBlock
@@ -36,6 +41,11 @@ Metadata:
 
 
 Parameters:
+#S3 Bucket for storage of Nested Stacks
+  S3BucketName:
+    Type: String
+    Description: The name of the S3 Bucket where nested template files are stored
+
 #VPC Nested Stack Parameters
   VpcBlock:
     Type: String
@@ -199,7 +209,11 @@ Resources:
           Subnet04Block: !Ref Subnet04Block
           Subnet05Block: !Ref Subnet05Block
           Subnet06Block: !Ref Subnet06Block
-      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/vpc.yaml
+      TemplateURL:  !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/vpc.yaml'
       TimeoutInMinutes: 30
   
   #EKS Cluster takes approximately 20 Minutes
@@ -215,14 +229,22 @@ Resources:
           #Output from VPCStack
           ControlPlaneSecurityGroups: !GetAtt VPCStack.Outputs.SecurityGroups
           ClusterSubnets: !GetAtt VPCStack.Outputs.SubnetIds
-      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/ekscluster.yaml
+      TemplateURL: !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/ekscluster.yaml'
       TimeoutInMinutes: 30
 
   NodeInstanceProfileStack:
     DependsOn: EKSClusterStack
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/workernodeinstanceprofile.yaml
+      TemplateURL:  !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/workernodeinstanceprofile.yaml'
       TimeoutInMinutes: 30
 
   NodeSecurityGroupStack:
@@ -236,7 +258,11 @@ Resources:
         Vpc: !GetAtt VPCStack.Outputs.VpcId
         #Output from EKSClusterStack
         ClusterName: !GetAtt EKSClusterStack.Outputs.ClusterName
-      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/workernodesecuritygroup.yaml
+      TemplateURL: !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/workernodesecuritygroup.yaml'
       TimeoutInMinutes: 30
 
   NodeASGStack:
@@ -263,7 +289,11 @@ Resources:
         ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
         #Output from NodeInstanceProfileStack
         ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
-      TemplateURL: https://s3-us-west-2.amazonaws.com/eksref/nodegroup.yaml
+      TemplateURL:  !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/nodegroup.yaml'
       TimeoutInMinutes: 30
 
 
