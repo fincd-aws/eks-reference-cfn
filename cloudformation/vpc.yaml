@@ -289,8 +289,14 @@ Resources:
 Outputs:
 
   SubnetIds:
+    #EKS Places external load balancers in public subnets
     Description: All subnets in the VPC
     Value: !Join [ ",", [ !Ref Subnet01, !Ref Subnet02, !Ref Subnet03, !Ref Subnet04, !Ref Subnet05, !Ref Subnet06] ]
+
+  PrivateSubnetIds:
+    #worker nodes run in private subnets
+    Description: Private Subnets in the VPC
+    Value: !Join [ ",", [ !Ref Subnet01, !Ref Subnet02, !Ref Subnet03] ]
 
   SecurityGroups:
     Description: Security group for the cluster control plane communication with worker nodes
