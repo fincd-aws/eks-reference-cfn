@@ -265,21 +265,21 @@ Resources:
           - '.s3.amazonaws.com/workernodesecuritygroup.yaml'
       TimeoutInMinutes: 30
 
-  NodeASGStack:
+  NodeASGStack1:
     DependsOn: NodeSecurityGroupStack
     Type: AWS::CloudFormation::Stack
     Properties:
       Parameters: 
-        KeyName: !Ref KeyName
-        NodeImageId: !Ref NodeImageId
-        NodeInstanceType: !Ref NodeInstanceType
-        NodeAutoScalingGroupMinSize: !Ref NodeAutoScalingGroupMinSize
-        NodeAutoScalingGroupMaxSize: !Ref NodeAutoScalingGroupMaxSize
-        NodeVolumeSize: !Ref NodeVolumeSize
-        BootstrapArguments: !Ref BootstrapArguments
+        KeyName: !Ref KeyName1
+        NodeImageId: !Ref NodeImageId1
+        NodeInstanceType: !Ref NodeInstanceType1
+        NodeAutoScalingGroupMinSize: !Ref NodeAutoScalingGroupMinSize1
+        NodeAutoScalingGroupMaxSize: !Ref NodeAutoScalingGroupMaxSize1
+        NodeVolumeSize: !Ref NodeVolumeSize1
+        BootstrapArguments: !Ref BootstrapArguments1
         #Output from EKSClusterStack
         ClusterName: !GetAtt EKSClusterStack.Outputs.ClusterName
-        NodeGroupName: !Ref NodeGroupName
+        NodeGroupName: !Ref NodeGroupName1
         #Output from VPCStack
         ClusterControlPlaneSecurityGroup: !GetAtt VPCStack.Outputs.SecurityGroups
         #Output from VPCStack
@@ -293,10 +293,39 @@ Resources:
         - ''
         - - 'https://'
           - !Ref S3BucketName
-          - '.s3.amazonaws.com/nodegroup.yaml'
+          - '.s3.amazonaws.com/nodegroup1.yaml'
       TimeoutInMinutes: 30
 
-
+NodeASGStack2:
+    DependsOn: NodeSecurityGroupStack
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters: 
+        KeyName: !Ref KeyName2
+        NodeImageId: !Ref NodeImageId2
+        NodeInstanceType: !Ref NodeInstanceType2
+        NodeAutoScalingGroupMinSize: !Ref NodeAutoScalingGroupMinSize2
+        NodeAutoScalingGroupMaxSize: !Ref NodeAutoScalingGroupMaxSize2
+        NodeVolumeSize: !Ref NodeVolumeSize2
+        BootstrapArguments: !Ref BootstrapArguments2
+        #Output from EKSClusterStack
+        ClusterName: !GetAtt EKSClusterStack.Outputs.ClusterName
+        NodeGroupName: !Ref NodeGroupName2
+        #Output from VPCStack
+        ClusterControlPlaneSecurityGroup: !GetAtt VPCStack.Outputs.SecurityGroups
+        #Output from VPCStack
+        VpcId: !GetAtt VPCStack.Outputs.VpcId
+        ASGSubnets: !GetAtt VPCStack.Outputs.PrivateSubnetIds
+        #Output from NodeSecurityGroupStack
+        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
+        #Output from NodeInstanceProfileStack
+        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
+      TemplateURL:  !Join
+        - ''
+        - - 'https://'
+          - !Ref S3BucketName
+          - '.s3.amazonaws.com/nodegroup2.yaml'
+      TimeoutInMinutes: 30
 
 
 
