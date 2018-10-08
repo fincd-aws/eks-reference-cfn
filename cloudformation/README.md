@@ -22,7 +22,116 @@ Example Parent Stack Parameters
 
 ```json
 
-[{"ParameterKey":"BootstrapArguments1","ParameterValue":""},{"ParameterKey":"BootstrapArguments2","ParameterValue":""},{"ParameterKey":"ClusterName","ParameterValue":"TestCluster"},{"ParameterKey":"ClusterVersion","ParameterValue":"1.10"},{"ParameterKey":"KeyName1","ParameterValue":"test-ssh-key"},{"ParameterKey":"KeyName2","ParameterValue":"test-ssh-key"},{"ParameterKey":"NodeAutoScalingGroupMaxSize1","ParameterValue":"1"},{"ParameterKey":"NodeAutoScalingGroupMinSize1","ParameterValue":"1"},{"ParameterKey":"NodeGroupName1","ParameterValue":"t2mediumnodegroup"},{"ParameterKey":"NodeImageId1","ParameterValue":"ami-0a54c984b9f908c81"},{"ParameterKey":"NodeInstanceType1","ParameterValue":"t2.medium"},{"ParameterKey":"NodeVolumeSize1","ParameterValue":"40"},{"ParameterKey":"NodeAutoScalingGroupMaxSize2","ParameterValue":"3"},{"ParameterKey":"NodeAutoScalingGroupMinSize2","ParameterValue":"1"},{"ParameterKey":"NodeGroupName2","ParameterValue":"t2smallnodegroup"},{"ParameterKey":"NodeImageId2","ParameterValue":"ami-0a54c984b9f908c81"},{"ParameterKey":"NodeInstanceType2","ParameterValue":"t2.small"},{"ParameterKey":"NodeVolumeSize2","ParameterValue":"20"},{"ParameterKey":"S3BucketName","ParameterValue":"<Bucket Name>"},{"ParameterKey":"ServiceRole","ParameterValue":"arn:aws:iam::123456789012:role/EKS-Service-Role"},{"ParameterKey":"Subnet01Block","ParameterValue":"192.168.32.0/19"},{"ParameterKey":"Subnet02Block","ParameterValue":"192.168.64.0/19"},{"ParameterKey":"Subnet03Block","ParameterValue":"192.168.96.0/19"},{"ParameterKey":"Subnet04Block","ParameterValue":"192.168.128.0/19"},{"ParameterKey":"Subnet05Block","ParameterValue":"192.168.160.0/19"},{"ParameterKey":"Subnet06Block","ParameterValue":"192.168.192.0/19"},{"ParameterKey":"VpcBlock","ParameterValue":"192.168.0.0/16"}]
+[
+    {
+        "ParameterKey": "BootstrapArguments1",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "BootstrapArguments2",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "ClusterName",
+        "ParameterValue": "TestCluster"
+    },
+    {
+        "ParameterKey": "ClusterVersion",
+        "ParameterValue": "1.10"
+    },
+    {
+        "ParameterKey": "KeyName1",
+        "ParameterValue": "test-ssh-key"
+    },
+    {
+        "ParameterKey": "KeyName2",
+        "ParameterValue": "test-ssh-key"
+    },
+    {
+        "ParameterKey": "NodeAutoScalingGroupMaxSize1",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "NodeAutoScalingGroupMinSize1",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "NodeGroupName1",
+        "ParameterValue": "t2mediumnodegroup"
+    },
+    {
+        "ParameterKey": "NodeImageId1",
+        "ParameterValue": "ami-0a54c984b9f908c81"
+    },
+    {
+        "ParameterKey": "NodeInstanceType1",
+        "ParameterValue": "t2.medium"
+    },
+    {
+        "ParameterKey": "NodeVolumeSize1",
+        "ParameterValue": "40"
+    },
+    {
+        "ParameterKey": "NodeAutoScalingGroupMaxSize2",
+        "ParameterValue": "3"
+    },
+    {
+        "ParameterKey": "NodeAutoScalingGroupMinSize2",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "NodeGroupName2",
+        "ParameterValue": "t2smallnodegroup"
+    },
+    {
+        "ParameterKey": "NodeImageId2",
+        "ParameterValue": "ami-0a54c984b9f908c81"
+    },
+    {
+        "ParameterKey": "NodeInstanceType2",
+        "ParameterValue": "t2.small"
+    },
+    {
+        "ParameterKey": "NodeVolumeSize2",
+        "ParameterValue": "20"
+    },
+    {
+        "ParameterKey": "S3BucketName",
+        "ParameterValue": "<Bucket Name>"
+    },
+    {
+        "ParameterKey": "ServiceRole",
+        "ParameterValue": "arn:aws:iam::123456789012:role/EKS-Service-Role"
+    },
+    {
+        "ParameterKey": "Subnet01Block",
+        "ParameterValue": "192.168.32.0/19"
+    },
+    {
+        "ParameterKey": "Subnet02Block",
+        "ParameterValue": "192.168.64.0/19"
+    },
+    {
+        "ParameterKey": "Subnet03Block",
+        "ParameterValue": "192.168.96.0/19"
+    },
+    {
+        "ParameterKey": "Subnet04Block",
+        "ParameterValue": "192.168.128.0/19"
+    },
+    {
+        "ParameterKey": "Subnet05Block",
+        "ParameterValue": "192.168.160.0/19"
+    },
+    {
+        "ParameterKey": "Subnet06Block",
+        "ParameterValue": "192.168.192.0/19"
+    },
+    {
+        "ParameterKey": "VpcBlock",
+        "ParameterValue": "192.168.0.0/16"
+    }
+]
 
 ```
 
