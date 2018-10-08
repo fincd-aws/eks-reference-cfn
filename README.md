@@ -9,7 +9,8 @@ S3 Bucket for Storage of Nested Stacks
 2. ekscluster.yaml			
 3. workernodeinstanceprofile.yaml
 4. workernodesecuritygroup.yaml
-5. nodegroup.yaml
+5. nodegroup1.yaml
+6. nodegroup2.yaml
 
 - create a new CloudFormation Stack using parent.yaml
 - you *must* create the parent stack using the IAM Credentials you want to access the APIServer Endpoint with!
