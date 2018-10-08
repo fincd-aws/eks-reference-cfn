@@ -296,7 +296,7 @@ Resources:
           - '.s3.amazonaws.com/nodegroup1.yaml'
       TimeoutInMinutes: 30
 
-NodeASGStack2:
+  NodeASGStack2:
     DependsOn: NodeSecurityGroupStack
     Type: AWS::CloudFormation::Stack
     Properties:
