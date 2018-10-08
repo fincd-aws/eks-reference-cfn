@@ -1,3 +1,7 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'EKS Worker Node Security Group'
+
 Parameters:
   ControlPlaneSecurityGroup:
     Description: 'EKS Control Plane Security Group Id'

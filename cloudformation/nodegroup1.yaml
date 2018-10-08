@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Amazon EKS Reference Nested Stack Architecture October 2018'
+Description: 'EKS Node Group 1'
 
 Parameters:
 
