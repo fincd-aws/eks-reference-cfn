@@ -81,7 +81,7 @@ Resources:
 
   NatGateway:
     Type: "AWS::EC2::NatGateway"
-    DependsOn: InternetGateway
+    DependsOn: VPCGatewayAttachment
     Properties: 
       AllocationId: !GetAtt NatGatewayElasticIP.AllocationId
       SubnetId: !Ref Subnet04
