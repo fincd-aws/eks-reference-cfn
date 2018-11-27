@@ -112,7 +112,8 @@ Parameters:
     Type: AWS::EC2::VPC::Id
 
   VpcCidr:
-    Description: CIDR Range of VPC    
+    Description: CIDR Range of VPC  
+    Type: String  
 
   ASGSubnets:
     Description: The subnets where workers can be created.
@@ -265,4 +266,3 @@ Resources:
                       --region ${AWS::Region}
 
             --==BOUNDARY==--
-

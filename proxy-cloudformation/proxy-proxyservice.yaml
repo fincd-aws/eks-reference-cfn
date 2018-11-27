@@ -40,6 +40,10 @@ Parameters:
     Description: proxy service registry Name
     Default: squidproxy
 
+  VpcCidr:
+    Type: String
+    Description: CIDR of VPC
+
   
 Metadata:
   AWS::CloudFormation::Interface:
@@ -102,7 +106,7 @@ Resources:
           AssignPublicIp: ENABLED
           SecurityGroups:
             - !GetAtt ProxySecurityGroup.GroupId
-          Subnets: !Ref PublicSubnets
+          Subnets: !Split [ ',', !Ref PublicSubnets ]
       ServiceName: !Join
       - '-'
       - - 'ProxyService'
@@ -122,7 +126,7 @@ Resources:
           IpProtocol: "tcp"
           FromPort: 3128
           ToPort: 3128
-          CidrIp: !GetAtt VPC.CidrBlock
+          CidrIp: !Ref VpcCidr
 
   ProxyServiceRegistry:
     Type: "AWS::ServiceDiscovery::Service"

@@ -245,13 +245,13 @@ Resources:
         ECSServiceDesiredTaskCount: !Ref ProxyServiceDesiredTaskCount
         PublicSubnets: !GetAtt VPCStack.Outputs.PublicSubnetIds
         VPCID: !GetAtt VPCStack.Outputs.VpcId
+        VpcCidr: !GetAtt VPCStack.Outputs.VpcCidr
       TemplateURL:  !Join
         - ''
         - - 'https://'
           - !Ref S3BucketName
           - '.s3.amazonaws.com/proxy-proxyservice.yaml'
       TimeoutInMinutes: 30
-
 
   ClusterSGStack:
     DependsOn: ProxyServiceStack
@@ -336,9 +336,9 @@ Resources:
         VpcId: !GetAtt VPCStack.Outputs.VpcId
         ASGSubnets: !GetAtt VPCStack.Outputs.PrivateSubnetIds
         #Output from NodeSecurityGroupStack
-        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
+        NodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
         #Output from NodeInstanceProfileStack
-        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
+        NodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
         VpcCidr: !GetAtt VPCStack.Outputs.VpcCidr
         ServiceRegistry: !GetAtt ProxyServiceStack.Outputs.ProxyServiceRegistry
       TemplateURL:  !Join
@@ -369,9 +369,9 @@ Resources:
         VpcId: !GetAtt VPCStack.Outputs.VpcId
         ASGSubnets: !GetAtt VPCStack.Outputs.PrivateSubnetIds
         #Output from NodeSecurityGroupStack
-        ExistingNodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
+        NodeSecurityGroup: !GetAtt NodeSecurityGroupStack.Outputs.NodeSecurityGroup
         #Output from NodeInstanceProfileStack
-        ExistingNodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
+        NodeInstanceProfile: !GetAtt NodeInstanceProfileStack.Outputs.NodeInstanceProfile
         VpcCidr: !GetAtt VPCStack.Outputs.VpcCidr
         ServiceRegistry: !GetAtt ProxyServiceStack.Outputs.ProxyServiceRegistry
       TemplateURL:  !Join
